@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "com.netflix.dgs.codegen" version '5.5.0'
 }
 
 group = 'com.graphql-java.tutorial'
@@ -15,11 +16,23 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework:spring-webflux'
+	testImplementation 'com.netflix.graphql.dgs:graphql-dgs-client'
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+generateJava{
+	schemaPaths = ["${projectDir}/src/main/resources/graphql"] // List of directories containing schema files
+	packageName = 'com.example.packagename' // The package name to use to generate sources
+	generateClient = true // Enable generating the type safe query API
+	typeMapping = ["MediaType": "com.graphqljava.tutorial.bookDetails.MediaType"]
+	generateDataTypes = true
+//	skipEntityQueries = true
+	maxProjectionDepth = 2
 }

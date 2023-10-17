@@ -8,12 +8,17 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class BookController {
     @QueryMapping
-    public Book bookById(@Argument String id) {
-        return Book.getById(id);
+    public Media mediaById(@Argument String id) {
+        return Repo.getById(id);
     }
 
     @SchemaMapping
     public Author author(Book book) {
         return Author.getById(book.getAuthorId());
+    }
+
+    @SchemaMapping
+    public Author author(Dvd dvd) {
+        return Author.getById(dvd.getAuthorId());
     }
 }

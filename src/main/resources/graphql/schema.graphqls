@@ -1,16 +1,38 @@
 type Query {
-    bookById(id: ID): Book
+    mediaById(id: ID): Media
 }
 
-type Book {
+interface Media {
+    id: ID
+    name: String
+    author: Author
+    mediaType: MediaType
+}
+
+
+type Dvd implements Media {
+    id: ID
+    name: String
+    runTime: Int
+    author: Author
+    mediaType: MediaType
+}
+
+type Book implements Media{
     id: ID
     name: String
     pageCount: Int
     author: Author
+    mediaType: MediaType
 }
 
 type Author {
     id: ID
     firstName: String
     lastName: String
+}
+
+enum MediaType {
+    BOOK,
+    DVD
 }
